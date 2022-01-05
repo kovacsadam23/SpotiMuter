@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdlib.h>
 #include <string>
 #include <endpointvolume.h>
 #include <mmdeviceapi.h>
@@ -67,12 +68,17 @@ void muteSystem()
         string activeWindow = GetActiveWindowTitle();
         std::cout << activeWindow << '\n';
 
+        string prevWindow = activeWindow;
         if (activeWindow.compare("Advertisement") == 0)
         {
             changeVolume(0.0, true);
         }
         else
         {
+            if (prevWindow.compare("Advertisement") == 0)
+            {
+                Sleep(200);
+            }
             changeVolume(0.2, true);
         }
     }
@@ -84,4 +90,6 @@ void muteSystem()
 int main()
 {
     muteSystem();
+
+    return 0;
 }
