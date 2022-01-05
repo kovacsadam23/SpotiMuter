@@ -11,7 +11,7 @@ string GetActiveWindowTitle()
 {
     char res[2048];
     HWND hwnd = GetForegroundWindow();
-    GetWindowText(hwnd, res, GetWindowTextLength(hwnd));
+    GetWindowText(hwnd, res, GetWindowTextLength(hwnd) + 1);
     return res;
 }
 
