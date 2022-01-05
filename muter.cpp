@@ -63,12 +63,12 @@ void changeVolume(double nVolume, bool bScalar)
 
 void muteSystem()
 {
+    string prevWindow = "";
     for (;;)
     {
         string activeWindow = GetActiveWindowTitle();
         std::cout << activeWindow << '\n';
 
-        string prevWindow = activeWindow;
         if (activeWindow.compare("Advertisement") == 0)
         {
             changeVolume(0.0, true);
@@ -81,6 +81,7 @@ void muteSystem()
             }
             changeVolume(0.2, true);
         }
+        prevWindow = activeWindow;
     }
 }
 
