@@ -1,0 +1,11 @@
+# depslib dependency file v1.0
+1584205420 source:c:\users\lenovo\documents\programs\spotymuter\spotimuter\main.cpp
+	<iostream>
+
+1641423231 source:c:\users\lenovo\documents\programs\spotymuter\spotimuter\muter.cpp
+	<iostream>
+	<string>
+	<endpointvolume.h>
+	<mmdeviceapi.h>
+	<windows.h>
+
