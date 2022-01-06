@@ -35,6 +35,9 @@
 		<Linker>
 			<Add option="-lole32" />
 		</Linker>
+		<Unit filename="icon.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
 		<Unit filename="muter.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />

@@ -17,12 +17,12 @@ string GetActiveWindowTitle()
 }
 
 
-void changeVolume(double nVolume, bool bScalar)
+double manageVolume(double nVolume, bool bScalar, bool getVolume)
 {
-    HRESULT hr=NULL;
+    HRESULT hr = NULL;
     bool decibels = false;
     bool scalar = false;
-    double newVolume=nVolume;
+    double newVolume = nVolume;
 
     CoInitialize(NULL);
     IMMDeviceEnumerator *deviceEnumerator = NULL;
@@ -47,40 +47,48 @@ void changeVolume(double nVolume, bool bScalar)
 
     hr = endpointVolume->GetMasterVolumeLevelScalar(&currentVolume);
 
-    if (bScalar == false)
-    {
-        hr = endpointVolume->SetMasterVolumeLevel((float)newVolume, NULL);
+    if (getVolume) {
+        return (double)currentVolume;
     }
-    else if (bScalar == true)
-    {
-        hr = endpointVolume->SetMasterVolumeLevelScalar((float)newVolume, NULL);
-    }
-    endpointVolume->Release();
 
-    CoUninitialize();
+    else
+    {
+        if (bScalar == false)
+        {
+            hr = endpointVolume->SetMasterVolumeLevel((float)newVolume, NULL);
+        }
+        else if (bScalar == true)
+        {
+            hr = endpointVolume->SetMasterVolumeLevelScalar((float)newVolume, NULL);
+        }
+        endpointVolume->Release();
+
+        CoUninitialize();
+
+        return 0.0;
+    }
 }
 
 
-void muteSystem()
+void muteSystem(double volume)
 {
     string prevWindow = "";
+    string activeWindow = "";
     for (;;)
     {
-        string activeWindow = GetActiveWindowTitle();
+        activeWindow = GetActiveWindowTitle();
         std::cout << activeWindow << '\n';
 
         if (activeWindow.compare("Advertisement") == 0)
         {
-            changeVolume(0.0, true);
+            manageVolume(0.0, true, false);
         }
-        else
+        else if (prevWindow.compare("Advertisement") == 0)
         {
-            if (prevWindow.compare("Advertisement") == 0)
-            {
-                Sleep(200);
-            }
-            changeVolume(0.2, true);
+            Sleep(200);
+            manageVolume(volume, true, false);
         }
+
         prevWindow = activeWindow;
     }
 }
@@ -90,7 +98,8 @@ void muteSystem()
 
 int main()
 {
-    muteSystem();
+    double initVolume = manageVolume(0.0, false, true);
+    muteSystem(initVolume);
 
     return 0;
 }
