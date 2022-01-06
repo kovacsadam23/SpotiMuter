@@ -4,6 +4,7 @@
 #include <endpointvolume.h>
 #include <mmdeviceapi.h>
 #include <windows.h>
+#include <tchar.h>
 
 using namespace std;
 
@@ -11,8 +12,15 @@ using namespace std;
 string GetActiveWindowTitle()
 {
     char res[2048];
-    HWND hwnd = GetForegroundWindow();
+    // HWND forehwnd = GetForegroundWindow();
+    // HWND hwnd = GetNextWindow(forehwnd, GW_HWNDNEXT);
+    HWND hwnd = FindWindowEx(0, 0, "Chrome_WidgetWin_0", 0);
     GetWindowText(hwnd, res, GetWindowTextLength(hwnd) + 1);
+
+    if (res[0] == NULL)
+    {
+        return "Spotify not found";
+    }
     return res;
 }
 
@@ -70,10 +78,11 @@ double manageVolume(double nVolume, bool bScalar, bool getVolume)
 }
 
 
-void muteSystem(double volume)
+void muteSystem()
 {
     string prevWindow = "";
     string activeWindow = "";
+    double currentVolume = 0.0;
     for (;;)
     {
         activeWindow = GetActiveWindowTitle();
@@ -83,10 +92,14 @@ void muteSystem(double volume)
         {
             manageVolume(0.0, true, false);
         }
-        else if (prevWindow.compare("Advertisement") == 0)
+        else
         {
-            Sleep(200);
-            manageVolume(volume, true, false);
+            if (prevWindow.compare("Advertisement") == 0)
+            {
+                Sleep(300);
+                manageVolume(currentVolume, true, false);
+            }
+            currentVolume = manageVolume(0.0, false, true);
         }
 
         prevWindow = activeWindow;
@@ -98,8 +111,7 @@ void muteSystem(double volume)
 
 int main()
 {
-    double initVolume = manageVolume(0.0, false, true);
-    muteSystem(initVolume);
+    muteSystem();
 
     return 0;
 }
