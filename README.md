@@ -11,7 +11,7 @@ The app can be used on any Windows computer, by running the .exe that can be fou
 - Build the project yourself (Linking of the Ole32 library is required: "-lole32")
 
 # UI and future updates
-In its current state the app recognizes wheter Spotify is running or not, and displays info on the standard output. When an ad comes, it mutes your system's output volume, and when it's over, it sets the volume to the level used before.
+In its current state the app recognizes whether Spotify is running or not, and displays info on the standard output. When an ad comes, it mutes your system's output volume, and when it's over, it sets the volume to the level used before.
 In the future:
 - Spotify minimization fix
 
