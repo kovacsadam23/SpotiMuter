@@ -5,13 +5,14 @@
 #include <mmdeviceapi.h>
 #include <windows.h>
 #include <tchar.h>
+#include <algorithm>
 
 using namespace std;
 
 
 string GetActiveWindowTitle()
 {
-    char res[2048];
+    char res[1024];
     // HWND forehwnd = GetForegroundWindow();
     // HWND hwnd = GetNextWindow(forehwnd, GW_HWNDNEXT);
     HWND hwnd = FindWindowEx(0, 0, "Chrome_WidgetWin_0", 0);
@@ -83,10 +84,16 @@ void muteSystem()
     string prevWindow = "";
     string activeWindow = "";
     double currentVolume = 0.0;
+
     for (;;)
     {
         activeWindow = GetActiveWindowTitle();
-        std::cout << activeWindow << '\n';
+
+        if (activeWindow != prevWindow) {
+            system("cls");
+            std::cout << activeWindow << std::endl;
+        }
+
 
         if (activeWindow.compare("Advertisement") == 0)
         {
@@ -105,8 +112,6 @@ void muteSystem()
         prevWindow = activeWindow;
     }
 }
-
-
 
 
 int main()
