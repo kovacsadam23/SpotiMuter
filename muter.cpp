@@ -81,27 +81,29 @@ double manageVolume(double nVolume, bool bScalar, bool getVolume)
 
 void muteSystem()
 {
-    string prevWindow = "";
-    string activeWindow = "";
+    char prevWindow[1024] = "";
+    char activeWindow[1024] = "";
     double currentVolume = 0.0;
 
     for (;;)
     {
-        activeWindow = GetActiveWindowTitle();
+        // activeWindow = GetActiveWindowTitle();
 
-        if (activeWindow != prevWindow) {
+        strncpy(activeWindow, GetActiveWindowTitle().c_str(), sizeof activeWindow);
+
+        if (strcmp(activeWindow, prevWindow) != 0) {
             system("cls");
             std::cout << activeWindow << std::endl;
         }
 
 
-        if (activeWindow.compare("Advertisement") == 0)
+        if (strcmp(activeWindow,"Advertisement") == 0)
         {
             manageVolume(0.0, true, false);
         }
         else
         {
-            if (prevWindow.compare("Advertisement") == 0)
+            if (strcmp(prevWindow, "Advertisement") == 0)
             {
                 Sleep(300);
                 manageVolume(currentVolume, true, false);
@@ -109,7 +111,9 @@ void muteSystem()
             currentVolume = manageVolume(0.0, false, true);
         }
 
-        prevWindow = activeWindow;
+        memset(prevWindow, 0, sizeof prevWindow);
+        strncpy(prevWindow, activeWindow, sizeof activeWindow);
+        memset(activeWindow, 0, sizeof activeWindow);
     }
 }
 
