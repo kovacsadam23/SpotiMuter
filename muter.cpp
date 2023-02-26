@@ -6,6 +6,7 @@
 #include <windows.h>
 #include <tchar.h>
 #include <algorithm>
+#include <unistd.h>
 
 using namespace std;
 
@@ -111,9 +112,11 @@ void muteSystem()
             currentVolume = manageVolume(0.0, false, true);
         }
 
-        memset(prevWindow, 0, sizeof prevWindow);
+        // memset(prevWindow, 0, sizeof prevWindow);
         strncpy(prevWindow, activeWindow, sizeof activeWindow);
-        memset(activeWindow, 0, sizeof activeWindow);
+        // memset(activeWindow, 0, sizeof activeWindow);
+
+        Sleep(150);
     }
 }
 
