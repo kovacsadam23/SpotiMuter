@@ -1,29 +1,28 @@
 #include <iostream>
-#include <stdlib.h>
-#include <string>
 #include <endpointvolume.h>
 #include <mmdeviceapi.h>
 #include <windows.h>
 #include <tchar.h>
-#include <algorithm>
 #include <unistd.h>
 
 using namespace std;
 
-
-string GetActiveWindowTitle()
-{
+struct ProgramData {
     char res[1024];
+} ProgramData;
+
+
+void GetActiveWindowTitle()
+{
     // HWND forehwnd = GetForegroundWindow();
     // HWND hwnd = GetNextWindow(forehwnd, GW_HWNDNEXT);
     HWND hwnd = FindWindowEx(0, 0, "Chrome_WidgetWin_0", 0);
-    GetWindowText(hwnd, res, GetWindowTextLength(hwnd) + 1);
+    GetWindowText(hwnd, ProgramData.res, GetWindowTextLength(hwnd) + 1);
 
-    if (res[0] == NULL)
+    if (ProgramData.res[0] == NULL)
     {
-        return "Spotify not found";
+        strcpy(ProgramData.res, "Spotify not found");
     }
-    return res;
 }
 
 
@@ -80,7 +79,7 @@ double manageVolume(double nVolume, bool bScalar, bool getVolume)
 }
 
 
-void muteSystem()
+[[noreturn]] void muteSystem()
 {
     char prevWindow[1024] = "";
     char activeWindow[1024] = "";
@@ -88,9 +87,9 @@ void muteSystem()
 
     for (;;)
     {
-        // activeWindow = GetActiveWindowTitle();
+        GetActiveWindowTitle();
 
-        strncpy(activeWindow, GetActiveWindowTitle().c_str(), sizeof activeWindow);
+        strncpy(activeWindow, ProgramData.res, sizeof activeWindow);
 
         if (strcmp(activeWindow, prevWindow) != 0) {
             system("cls");
@@ -112,9 +111,9 @@ void muteSystem()
             currentVolume = manageVolume(0.0, false, true);
         }
 
-        // memset(prevWindow, 0, sizeof prevWindow);
+        memset(prevWindow, 0, sizeof prevWindow);
         strncpy(prevWindow, activeWindow, sizeof activeWindow);
-        // memset(activeWindow, 0, sizeof activeWindow);
+        memset(activeWindow, 0, sizeof activeWindow);
 
         Sleep(150);
     }
