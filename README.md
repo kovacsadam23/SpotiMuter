@@ -5,12 +5,12 @@ Well, I have a solution for you. It is called SpotiMuter.
 ** UPDATE INFOS DOWN BELOW **
 
 # About
-SpotiMuter is a simple console that mutes your device temporarily, and when the ad is over, it unmutes your PC.
+SpotiMuter is a simple console app that mutes your device temporarily, and when the ad is over, it unmutes your PC.
 The app can be used on any Windows computer, by running the .exe that can be found in the repository (.EXE folder).
 
 **How to use**
-- Download the latest [SpotiMuter.exe](https://github.com/kovacsadam23/SpotiMuter/.EXE/SpotiMuter.exe) file located in .EXE folder, then run it
-- Build the project yourself ~~(Linking of the Ole32 library is required: "-lole32")~~ in CLion!
+- Download the latest [SpotiMuter.exe](https://github.com/kovacsadam23/SpotiMuter/blob/main/.EXE/SpotiMuter.exe) file located in .EXE folder, then run it
+- Build the project yourself ~~(Linking of the Ole32 library is required: "-lole32")~~ in CLion with the provided CMake!
 
 # UI and future updates
 In its current state the app recognizes whether Spotify is running or not, and displays info on the standard output. When an ad comes, it mutes your system's output volume, and when it's over, it sets the volume to the level used before.
